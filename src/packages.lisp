@@ -1,3 +1,3 @@
 (defpackage :flatweb
   (:use :cl)
-  (:export :defroute :start :stop))
+  (:export :defapp :defroute :start :stop))
