@@ -1,5 +1,5 @@
 (defpackage :flatweb.tests
-  (:use :cl :should-test :alexandria))
+  (:use :cl :should-test))
 
 (in-package :flatweb.tests)
 
