@@ -1,7 +1,8 @@
 (in-package :flatweb)
 
-(defconstant +http-methods+
-  '(:get :head :post :put :delete :connect :options :trace :patch))
+(alexandria:define-constant +http-methods+
+    '(:get :head :post :put :delete :connect :options :trace :patch)
+  :test #'equal)
 
 (defclass sequent (hunchentoot:acceptor)
   ((routes
