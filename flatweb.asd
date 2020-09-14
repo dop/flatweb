@@ -9,7 +9,9 @@
   :components ((:module "src"
                 :serial t
                 :components ((:file "packages")
-                             (:file "flatweb" :depends-on ("packages"))))))
+                             (:file "path")
+                             (:file "core")
+                             (:file "flatweb")))))
 
 (defsystem :flatweb/test
   :description "Simple web framework."
