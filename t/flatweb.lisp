@@ -1,7 +1,4 @@
-(defpackage :flatweb.tests
-  (:use :cl :should-test))
-
-(in-package :flatweb.tests)
+(in-package :flatweb/test)
 
 (defmacro with-app (options routes &body body)
   (let ((app-variable (gensym "app")))
@@ -32,16 +29,10 @@
       (should be = 200 status)
       (should be equalp "ID: 123" body))))
 
+(defun say-hello (name &optional greeting)
+  (format nil "~A, ~A!" (or greeting "Hello") (or name "World")))
+
 (deftest query-params ()
-  (defun say-hello (name &optional greeting)
-    (format nil "~A, ~A!" (or greeting "Hello") (or name "World")))
-
-  (with-app (:port 8080) ((:GET "/" (request) (say-hello (hunchentoot:get-parameter "name" request))))
-    (with-get "http://localhost:8080" (body)
-      (should be equal "Hello, World!" body))
-    (with-get "http://localhost:8080?name=Pilypas" (body)
-      (should be equal "Hello, Pilypas!" body)))
-
   (with-app (:port 8080) ((:GET "/?name&greeting" (name greeting) (say-hello name greeting)))
     (with-get "http://localhost:8080" (body)
       (should be equal "Hello, World!" body))

@@ -2,7 +2,7 @@
 (ql:quickload :flatweb/test)
 
 (defun flatweb-packages ()
-  (remove-if-not (lambda (package) (str:containsp "FLATWEB" (package-name package)))
+  (remove-if-not (lambda (package) (str:containsp "FLATWEB/TEST" (package-name package)))
                  (list-all-packages)))
 
 (defun flatweb-tests ()

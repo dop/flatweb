@@ -19,4 +19,7 @@
   :author "Donatas Petrauskas <donatas.petr@gmail.com>"
   :licence "All right reserved."
   :depends-on (:flatweb :should-test :drakma)
-  :components ((:module "t" :serial t :components ((:file "flatweb") (:file "path")))))
+  :components ((:module "t" :serial t :components ((:file "package")
+                                                   (:file "helpers")
+                                                   (:file "flatweb")
+                                                   (:file "path")))))
