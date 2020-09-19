@@ -25,7 +25,7 @@
 (defmacro defroute (app method paths params &body body)
   (assert (member method +http-methods+))
   (let ((paths (if (consp paths) paths (list paths)))
-        (uses-request-p (member 'request params)))
+        (uses-request-p (member "request" params :test #'equalp :key #'symbol-name)))
     (let* ((name (intern (flatweb.core:path-to-symbol method (car paths)))))
       `(progn
          (defun ,name ,(if uses-request-p params (cons 'request params))

@@ -5,7 +5,7 @@
   :version "0.0.1"
   :author "Donatas Petrauskas <donatas.petr@gmail.com>"
   :licence "All right reserved."
-  :depends-on (:hunchentoot :cl-ppcre :alexandria)
+  :depends-on (:hunchentoot :cl-ppcre :alexandria :str)
   :components ((:module "src"
                 :serial t
                 :components ((:file "packages")
@@ -19,4 +19,4 @@
   :author "Donatas Petrauskas <donatas.petr@gmail.com>"
   :licence "All right reserved."
   :depends-on (:flatweb :should-test :drakma)
-  :components ((:module "t" :serial t :components ((:file "flatweb")))))
+  :components ((:module "t" :serial t :components ((:file "flatweb") (:file "path")))))
