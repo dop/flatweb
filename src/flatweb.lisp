@@ -19,6 +19,8 @@
       (loop :for c :across path :do
         (case c
           (#\/ (write-char #\- out))
+          (#\? (write-string "FIELD-" out))
+          (#\& (write-string "-AND-" out))
           (#\: nil)
           (t   (write-char (char-upcase c) out)))))))
 

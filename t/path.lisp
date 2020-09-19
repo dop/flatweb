@@ -22,8 +22,8 @@
     '("1") t)
   (match "/user/:id" "/user/123" nil
     '("123") t)
-  (match "/move/:from/:to" "/move/this/there" nil
-    '("this" "there") t))
+  (match "/move/:from/:to" "/move/here/there" nil
+    '("here" "there") t))
 
 (deftests match-query-param
   (match "/?a" "/" '(("a" . "1"))

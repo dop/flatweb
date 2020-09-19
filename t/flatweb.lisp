@@ -13,6 +13,10 @@
   `(multiple-value-bind ,params (drakma:http-request ,url)
      ,@body))
 
+(defmacro with-post (url post-data params &body body)
+  `(multiple-value-bind ,params (drakma:http-request ,url :method :post :parameters ,post-data)
+     ,@body))
+
 (deftest defapp ()
   (with-app (:port 8080) ()
     (with-get "http://localhost:8080/a" (body status)
@@ -38,3 +42,15 @@
       (should be equal "Hello, World!" body))
     (with-get "http://localhost:8080?name=Pilypas&greeting=Ola" (body)
       (should be equal "Ola, Pilypas!" body))))
+
+(deftest body-params ()
+  (with-app (:port 9000) ((:POST "/?name&greeting" (name greeting) (say-hello name greeting)))
+    (with-post "http://localhost:9000" () (body)
+      (should be equal "Hello, World!" body))
+    (with-post "http://localhost:9000" '(("name" . "Pilypas") ("greeting" . "Ola")) (body)
+      (should be equal "Ola, Pilypas!" body))))
+
+(deftest param-priority ()
+  (with-app (:port 9001) ((:POST "/?a&b" (a b) (format nil "A is ~A and B is ~A" a b)))
+    (with-post "http://localhost:9001?a=1&b=3" '(("a" . "2")) (body)
+      (should be equal "A is 2 and B is 3" body))))

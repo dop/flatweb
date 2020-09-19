@@ -1,8 +1,5 @@
 (in-package :flatweb.path)
 
-(defun create-path-matcher (path)
-  (cl-ppcre:parse-string (concatenate 'string "^" (cl-ppcre:regex-replace ":[^/]+" path "([^/]+)") "$")))
-
 (defun xor (a b)
   (or (and b (not a))
       (and a (not b))))
@@ -21,7 +18,7 @@
                     ((and (not x) (not y))
                      (return (values result t)))))))
 
-(defun match (template path &optional params)
+(defun match (template path &optional get-params post-params)
   (let ((matchedp nil)
         (result nil))
     (destructuring-bind (path-template &optional query-template) (str:split "?" template)
@@ -32,5 +29,6 @@
               result r))
       (when (and matchedp query-template)
         (loop :for name :in (str:split "&" query-template) :do
-          (push (cdr (assoc name params :test #'equal)) result))))
+          (push (cdr (or (assoc name post-params :test #'equal)
+                         (assoc name get-params :test #'equal))) result))))
     (values (nreverse result) t)))

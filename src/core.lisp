@@ -21,7 +21,10 @@
 (defun create-request-matcher (path method handler)
   (lambda (request)
     (unless (and method (not (eq method (hunchentoot:request-method request))))
-      (multiple-value-bind (args matchedp) (flatweb.path:match path (hunchentoot:script-name request) (hunchentoot:get-parameters request))
+      (multiple-value-bind (args matchedp) (flatweb.path:match path
+                                             (hunchentoot:script-name request)
+                                             (hunchentoot:get-parameters request)
+                                             (hunchentoot:post-parameters request))
         (when matchedp
           (if args
               (lambda (request) (apply handler request args))
