@@ -1,5 +1,17 @@
 (in-package :flatweb.core)
 
+(alexandria:define-constant +http-methods+
+    '(:get :head :post :put :delete :connect :options :trace :patch)
+  :test #'equal)
+
+(deftype http-method ()
+  `(member ,@+http-methods+))
+
+(defstruct route
+  (method :get :type http-method)
+  prefix
+  handler)
+
 (defclass sequent (hunchentoot:acceptor)
   ((routes
     :initform '()
@@ -32,6 +44,6 @@
 
 (defun update-dispatch-table (app)
   (setf (dispatch-table app) nil)
-  (loop :for (path method handler) :in (reverse (routes app))
-        :do (push (create-request-matcher path method handler)
+  (loop :for route :in (reverse (routes app))
+        :do (push (create-request-matcher (route-prefix route) (route-method route) (route-handler route))
                   (dispatch-table app))))

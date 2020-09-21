@@ -4,7 +4,7 @@
 
 (defpackage :flatweb.core
   (:use :cl)
-  (:export :sequent :routes :update-dispatch-table :path-to-symbol))
+  (:export :sequent :routes :update-dispatch-table :path-to-symbol :make-route :http-method))
 
 (defpackage :flatweb
   (:use :cl :flatweb.core)
