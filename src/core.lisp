@@ -7,11 +7,6 @@
 (deftype http-method ()
   `(member ,@+http-methods+))
 
-(defstruct route
-  (method :get :type http-method)
-  prefix
-  handler)
-
 (defclass sequent (hunchentoot:acceptor)
   ((routes
     :initform '()
@@ -30,7 +25,7 @@
                 (return-from hunchentoot:acceptor-dispatch-request (funcall handler request)))))
   (call-next-method))
 
-(defun create-request-matcher (path method handler)
+(defun create-request-matcher (method path handler)
   (lambda (request)
     (unless (and method (not (eq method (hunchentoot:request-method request))))
       (multiple-value-bind (args matchedp) (flatweb.path:match path
@@ -39,11 +34,10 @@
                                              (hunchentoot:post-parameters request))
         (when matchedp
           (if args
-              (lambda (request) (apply handler request args))
-              handler))))))
+            (lambda (request) (apply handler request args))
+            handler))))))
 
-(defun update-dispatch-table (app)
-  (setf (dispatch-table app) nil)
-  (loop :for route :in (reverse (routes app))
-        :do (push (create-request-matcher (route-prefix route) (route-method route) (route-handler route))
-                  (dispatch-table app))))
+(defun update-dispatch-table (app routes)
+  (setf (dispatch-table app)
+        (loop :for (method path handler) :in routes
+              :collect (create-request-matcher method path handler))))

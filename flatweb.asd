@@ -5,7 +5,7 @@
   :version "0.0.1"
   :author "Donatas Petrauskas <donatas.petr@gmail.com>"
   :licence "All right reserved."
-  :depends-on (:hunchentoot :cl-ppcre :alexandria :str)
+  :depends-on (:hunchentoot :cl-ppcre :alexandria :str :trivia)
   :components ((:module "src"
                 :serial t
                 :components ((:file "packages")
